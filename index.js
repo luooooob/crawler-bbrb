@@ -39,7 +39,7 @@ function requestNextSearchPage (option, callback) {
 			body = iconv.decode(body, 'gbk').toString()
 			var $ = cheerio.load(body)
 			var GDtitle = $('.s_post .p_title a')
-			for(let i = 0; i > GDtitle.length; i++) {
+			for(let i = 0; i < GDtitle.length; i++) {
 				// class GaysDaily: GDtitle, author, pubDate, url
 				let gaysDaily = new GaysDaily(
 					// GDtitle
@@ -56,6 +56,7 @@ function requestNextSearchPage (option, callback) {
 				gaysDailys.push(gaysDaily)
 			}
 			var href = $('a.next').attr('href')
+			// href = null;
 			if (href) {
 				option = new RequestOption('http://tieba.baidu.com' + href)
 				requestNextSearchPage(option, callback)
@@ -66,23 +67,43 @@ function requestNextSearchPage (option, callback) {
 	})
 }
 
-function saveGaysDailys (callback) {
-/*	gaysDailys.forEach( (gaysDaily) => {
-		console.log(gaysDaily)
-		var text = gaysDaily.GDtitle + '\t' 
-						 + gaysDaily.author + '\t'
-						 + gaysDaily.pubDate + '\t'
-						 + gaysDaily.url + '\n'
-		fs.appendFile('gay\'s Daily.txt', text)
-	});*/
-	console.log("ssss")
-	callback()
+
+function asyncRequestGDInfo (callback) {
+	async.mapLimit(gaysDailys, 30, (gaysDaily, callback) => {
+		RequestAndSaveGDInfo(gaysDaily, callback)
+	}, 
+	(error,result) => {
+		if(error) {
+			console.log("async.mapLimit error"+ error);
+		} else {
+			callback()
+		}
+	})
 }
 
+function RequestAndSaveGDInfo(gaysDaily, callback) {
+	request (gaysDaily.url, (error, response, body) => {
+		if (error) {
+			console.log(gaysDaily.url + error)
+		} else {
+			var $ = cheerio.load(body)
+			var replies = $('.l_reply_num span[class="red"]').html()
+			gaysDaily.replies = replies
+			console.log(gaysDaily)
+			var text = gaysDaily.GDtitle + '\t' 
+						 + gaysDaily.author + '\t'
+						 + gaysDaily.pubDate + '\t'
+						 + gaysDaily.replies + '\t'
+						 + gaysDaily.url + '\n'
+			fs.appendFile('gay\'s Daily.txt', text)
+			callback()
+		}
+	})
+}
 
 async.series([
 	(callback) => {requestGDUrls(callback)}, 
-	(callback) => {saveGaysDailys(callback)}
+	(callback) => {asyncRequestGDInfo (callback)}
 ], 
 (error, results) => {
 	if(error) {
