@@ -1,0 +1,23 @@
+{
+  "name": "crawler-bbrb",
+  "version": "1.0.0",
+  "description": "2016年笔吧日报统计",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js"
+  },
+  "author": "SSRius",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.1.4",
+    "babel-core": "^6.21.0",
+    "babel-polyfill": "6.13.0",
+    "babel-preset-es2015-node6": "0.3.0",
+    "babel-preset-stage-3": "6.5.0",
+    "cheerio": "^0.22.0",
+    "fs": "^0.0.1-security",
+    "iconv-lite": "^0.4.15",
+    "request": "^2.79.0"
+  }
+}
