@@ -1,7 +1,7 @@
 {
   "name": "crawler-bbrb",
   "version": "1.0.0",
-  "description": "2016年笔吧日报统计",
+  "description": "node爬虫，笔吧日报统计",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
