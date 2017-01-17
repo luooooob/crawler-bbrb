@@ -1,2 +1,12 @@
 # crawler-bbrb
-2016年笔吧日报统计
+
+> node爬虫，笔吧日报统计
+
+## 用法
+
+node环境
+``` bash
+➜  npm install
+➜  npm run start
+```
+

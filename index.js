@@ -90,12 +90,12 @@ function RequestAndSaveGDInfo(gaysDaily, callback) {
 			var replies = $('.l_reply_num span[class="red"]').html()
 			gaysDaily.replies = replies
 			console.log(gaysDaily)
-			var text = gaysDaily.GDtitle + '\t' 
-						 + gaysDaily.author + '\t'
-						 + gaysDaily.pubDate + '\t'
-						 + gaysDaily.replies + '\t'
-						 + gaysDaily.url + '\n'
-			fs.appendFile('gay\'s Daily.txt', text)
+			var text = ' ' + gaysDaily.GDtitle + '\t' 
+							 + gaysDaily.author + '\t'
+							 + gaysDaily.pubDate + '\t'
+							 + gaysDaily.replies + '\t'
+							 + gaysDaily.url + '\n'
+			fs.appendFileSync('gay\'s Daily.txt', text)
 			callback()
 		}
 	})
